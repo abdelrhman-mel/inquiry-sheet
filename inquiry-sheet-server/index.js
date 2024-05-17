@@ -13,10 +13,14 @@ app.use(cors());
 app.use(express.json());
 
 //connect to db
-mongoose.connect(process.env.MONGO_URI);
-const db = mongoose.connection;
-db.on("error", (error) => console.error(error));
-db.once("open", () => console.log("Connected to Database"));
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 //routes
 app.get("/", (req, res) => {
