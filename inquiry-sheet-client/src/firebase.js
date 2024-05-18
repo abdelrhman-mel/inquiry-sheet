@@ -6,11 +6,11 @@ import { initializeApp } from "firebase/app";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: "cool-estate.firebaseapp.com",
-  projectId: "cool-estate",
-  storageBucket: "cool-estate.appspot.com",
-  messagingSenderId: "226995549903",
-  appId: "1:226995549903:web:9c502f341af3ba7afd29ba",
+  authDomain: "psi-inquiry.firebaseapp.com",
+  projectId: "psi-inquiry",
+  storageBucket: "psi-inquiry.appspot.com",
+  messagingSenderId: "506912591934",
+  appId: "1:506912591934:web:fe5fb56c3478287494416f",
 };
 
 // Initialize Firebase
