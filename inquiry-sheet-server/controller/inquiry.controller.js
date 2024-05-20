@@ -108,7 +108,7 @@ const editInquiry = async (req, res) => {
     );
 
     if (!inquiry) {
-      return res.status(404).json({ error: "Inquiry not found" });
+      return next(errorHandler(404, "Inquiry not found"));
     }
 
     res.status(200).json({ message: "Inquiry updated successfully" });
