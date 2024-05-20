@@ -1,7 +1,7 @@
 // middleware/auth.js
-const jwt = require("jsonwebtoken");
-const User = require("../models/user.model.js");
-const { errorHandler } = require("../utils/error.js");
+import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
+import { errorHandler } from "../utils/error.js";
 
 const auth = (role) => async (req, res, next) => {
   const token =
@@ -33,4 +33,4 @@ const auth = (role) => async (req, res, next) => {
   }
 };
 
-module.exports = auth;
+export default auth;

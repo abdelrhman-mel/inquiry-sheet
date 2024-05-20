@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import authRoutes from "./routes/auth.route.js";
-//import inquiryRoutes from "./routes/inquiry.route.js";
+import inquiryRoutes from "./routes/inquiry.route.js";
 
 dotenv.config();
 const app = express();
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 app.use("/api/auth", authRoutes);
-app.use("/api/inquiry", inquiryRoutes);
+app.use("/api", inquiryRoutes);
 
 //error handling middleware
 app.use((err, req, res, next) => {

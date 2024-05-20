@@ -1,4 +1,4 @@
-const { errorHandler } = require("../utils/error");
+import { errorHandler } from "../utils/error.js";
 
 const addInquiry = async (req, res) => {
   //get the data from the body
@@ -117,4 +117,4 @@ const editInquiry = async (req, res) => {
   }
 };
 
-module.exports = { addInquiry, getInquiries, editInquiry };
+export { addInquiry, getInquiries, editInquiry };
