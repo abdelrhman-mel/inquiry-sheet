@@ -51,21 +51,30 @@ const Signup = () => {
         />
         <input
           type="email"
-          placeholder="email"
+          placeholder="Email"
           className="border p-3 rounded-lg ease-in-out transition-all duration-300 hover:shadow-md"
           id="email"
           onChange={handleChange}
         />
         <input
-          type="number"
+          type="tel"
           placeholder="Phone Number"
           className="border p-3 rounded-lg ease-in-out transition-all duration-300 hover:shadow-md"
           id="phoneNumber"
           onChange={handleChange}
         />
+        <select
+          className="border p-3 rounded-lg ease-in-out transition-all duration-300 hover:shadow-md"
+          id="role"
+          onChange={handleChange}
+        >
+          <option value="">Select Role</option>
+          <option value="listing">Listing</option>
+          <option value="broker">Broker</option>
+        </select>
         <input
           type="password"
-          placeholder="password"
+          placeholder="Password"
           className="border p-3 rounded-lg ease-in-out transition-all duration-300 hover:shadow-md"
           id="password"
           onChange={handleChange}

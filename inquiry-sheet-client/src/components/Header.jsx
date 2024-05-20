@@ -1,9 +1,27 @@
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "../redux/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("/api/auth/signout", {
+        method: "POST",
+      });
+      if (res.ok) {
+        dispatch(signOut());
+        navigate("/signin");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3 container ">
@@ -32,6 +50,14 @@ const Header = () => {
               </li>
             )}
           </Link>
+          {currentUser && (
+            <li
+              onClick={handleSignOut}
+              className="sm:inline text-slate-700 hover:text-slate-400 transition-colors duration-300 font-semibold cursor-pointer"
+            >
+              Sign Out
+            </li>
+          )}
         </ul>
       </div>
     </header>

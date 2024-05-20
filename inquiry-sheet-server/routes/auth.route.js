@@ -6,5 +6,8 @@ const router = express.Router();
 //signup route
 router.post("/signup", signUp);
 router.post("/signin", signIn);
+router.post("/signout", (req, res) => {
+  res.clearCookie("access_token").json({ message: "Signout successful" });
+});
 
 export default router;

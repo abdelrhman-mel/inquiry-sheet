@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 app.use("/api/auth", authRoutes);
-//app.use("/api/inquiry", inquiryRoutes);
+app.use("/api/inquiry", inquiryRoutes);
 
 //error handling middleware
 app.use((err, req, res, next) => {

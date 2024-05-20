@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 import { errorHandler } from "../utils/error.js";
 
 const signUp = async (req, res, next) => {
-  const { fullName, email, phoneNumber, password } = req.body;
-  //check the incoming dat
+  const { fullName, email, phoneNumber, role, password } = req.body;
+  //check the incoming data
   if (!fullName || !email || !password || !phoneNumber) {
     return next(errorHandler(400, "All fields are required"));
   }
@@ -19,6 +19,7 @@ const signUp = async (req, res, next) => {
     fullName,
     email,
     phoneNumber,
+    role,
     password: hashedPassword,
   });
   try {
