@@ -49,6 +49,18 @@ const inquirySchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    refNum: {
+      type: String,
+      required: false,
+    },
+    listingAgentName: {
+      type: String,
+      required: false,
+    },
+    feedBack: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true }
 );
