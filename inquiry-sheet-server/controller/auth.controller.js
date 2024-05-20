@@ -4,9 +4,9 @@ import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
 const signUp = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { fullName, email, phoneNumber, password } = req.body;
   //check the incoming data
-  if (!username || !email || !password) {
+  if (!fullName || !email || !password || !phoneNumber) {
     return next(errorHandler(400, "All fields are required"));
   }
   // check if user already exists
@@ -15,7 +15,12 @@ const signUp = async (req, res, next) => {
     return next(errorHandler(400, "User already exists"));
   }
   const hashedPassword = await brycpt.hash(password, 10);
-  const user = new User({ username, email, password: hashedPassword });
+  const user = new User({
+    fullName,
+    email,
+    phoneNumber,
+    password: hashedPassword,
+  });
   try {
     await user.save();
     res.status(201).json({ message: "User created successfully" });
