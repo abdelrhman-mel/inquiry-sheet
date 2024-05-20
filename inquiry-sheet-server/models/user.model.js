@@ -12,12 +12,18 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     phoneNumber: {
-      type: String,
+      type: Number,
       required: "Phone number is required",
     },
     password: {
       type: String,
       required: "Password is required",
+    },
+    role: {
+      type: String,
+      default: "broker",
+      enum: ["admin", "listing", "broker"],
+      required: true,
     },
   },
   { timestamps: true }

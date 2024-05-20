@@ -8,16 +8,12 @@ const Profile = () => {
         Profile Information
       </h1>
       <form className="flex flex-col gap-2">
-        <img
-          src={currentUser.rest.avatar}
-          alt="profile"
-          className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
-        />
         <input
           type="text"
           placeholder="Username"
           className="border p-3 rounded-lg my-2"
           id="username"
+          value={currentUser.rest.fullName}
         />
         <input
           type="email"

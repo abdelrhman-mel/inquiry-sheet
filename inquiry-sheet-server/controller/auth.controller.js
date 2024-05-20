@@ -1,11 +1,11 @@
 import User from "../models/user.model.js";
 import brycpt from "bcrypt";
-import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import { errorHandler } from "../utils/error.js";
 
 const signUp = async (req, res, next) => {
   const { fullName, email, phoneNumber, password } = req.body;
-  //check the incoming data
+  //check the incoming dat
   if (!fullName || !email || !password || !phoneNumber) {
     return next(errorHandler(400, "All fields are required"));
   }
@@ -23,7 +23,7 @@ const signUp = async (req, res, next) => {
   });
   try {
     await user.save();
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({ error: "User created successfully" });
   } catch (err) {
     next(err);
   }
@@ -34,17 +34,17 @@ const signIn = async (req, res, next) => {
   try {
     //check the incoming data
     if (!email || !password) {
-      return next(errorHandler(404, "All fields are required"));
+      return next(errorHandler(400, "All fields are required"));
     }
     // check if user exists
     const user = await User.findOne({ email: email });
     if (!user) {
-      return next(errorHandler(401, "Invalid credentials"));
+      return next(errorHandler(400, "Invalid credentials"));
     }
     //check password
     const isMatch = await brycpt.compare(password, user.password);
     if (!isMatch) {
-      return next(errorHandler(401, "Invalid credentials"));
+      return next(errorHandler(400, "Invalid credentials"));
     }
     //generate token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);

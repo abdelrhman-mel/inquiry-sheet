@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser);
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3 container ">
@@ -16,19 +17,17 @@ const Header = () => {
         </Link>
         <ul className="flex gap-12 items-center flex-row">
           <Link to="/">
-            <li className="hidden sm:inline text-slate-700 hover:text-slate-400 transition-colors duration-300 font-semibold">
+            <li className="sm:inline text-slate-700 hover:text-slate-400 transition-colors duration-300 font-semibold">
               Home
             </li>
           </Link>
-          <Link to="/inquiry">
+          <Link to="/profile">
             {currentUser ? (
-              <img
-                className="h-9 w-9 rounded-full object-cover"
-                src={currentUser.rest.avatar}
-                alt="Iquiry"
-              ></img>
+              <li className="sm:inline text-slate-700 hover:text-slate-400 transition-colors duration-300 font-semibold">
+                Profile
+              </li>
             ) : (
-              <li className="text-slate-700 hover:text-slate-400 transition-colors duration-300">
+              <li className="sm:inline text-slate-700 hover:text-slate-400 transition-colors duration-300 font-semibold">
                 Sign In
               </li>
             )}
