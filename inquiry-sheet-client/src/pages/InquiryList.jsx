@@ -40,11 +40,15 @@ const InquiryList = () => {
   }, []);
   return (
     <div>
-      <h1>Inquiry</h1>
-      <p>
-        {currentUser.rest.role === "listing" ? "authorized" : "unauthorized"}
-      </p>
+      <h1 className=" text-center">Inquiry</h1>
       {loading && <p>Loading...</p>}
+      {inquiries.map((inquiry) => (
+        <div key={inquiry.id} className="border p-3 my-3 rounded-lg">
+          <h3>{inquiry.title}</h3>
+          <p>{inquiry.content}</p>
+        </div>
+      ))}
+      {error && <p className="text-red-500 mt-5">{error}</p>}
     </div>
   );
 };
