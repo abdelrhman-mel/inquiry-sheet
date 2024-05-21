@@ -1,4 +1,5 @@
 import { errorHandler } from "../utils/error.js";
+import Inquiry from "../models/inquiry.model.js";
 
 const addInquiry = async (req, res) => {
   //get the data from the body

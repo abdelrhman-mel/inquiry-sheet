@@ -1,5 +1,5 @@
 //inquiry model
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const inquirySchema = new mongoose.Schema(
   {
     fullName: {
@@ -66,4 +66,4 @@ const inquirySchema = new mongoose.Schema(
 );
 
 const Inquiry = mongoose.model("Inquiry", inquirySchema);
-module.exports = Inquiry;
+export default Inquiry;
