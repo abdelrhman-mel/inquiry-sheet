@@ -1,13 +1,12 @@
 import { errorHandler } from "../utils/error.js";
 import Inquiry from "../models/inquiry.model.js";
 
-const addInquiry = async (req, res) => {
+const addInquiry = async (req, res, next) => {
   //get the data from the body
   const {
     fullName,
     phoneNumber,
     city,
-    area,
     project,
     type,
     bedrooms,
@@ -27,7 +26,6 @@ const addInquiry = async (req, res) => {
     fullName,
     phoneNumber,
     city,
-    area,
     project,
     type,
     bedrooms,
@@ -42,47 +40,30 @@ const addInquiry = async (req, res) => {
     await inquiry.save();
     res.status(201).json({ message: "Inquiry added successfully" });
   } catch (err) {
-    res.status(500).json({ error: "Something went wrong" });
+    next(errorHandler(500, err.message));
   }
 };
 
-const getInquiries = async (req, res) => {
+const getInquiries = async (req, res, next) => {
   //get all inquiries
   try {
     const inquiries = await Inquiry.find();
     res.status(200).json(inquiries);
   } catch (err) {
-    res.status(500).json({ error: "Something went wrong" });
+    next(errorHandler(500, err.message));
   }
 };
 
-const editInquiry = async (req, res) => {
+const editInquiry = async (req, res, next) => {
   //get the inquiry id from the request parameters
   const { id } = req.params;
 
   //get the updated inquiry data from the request body
-  const {
-    fullName,
-    phoneNumber,
-    city,
-    area,
-    project,
-    type,
-    bedrooms,
-    vacant,
-    budget,
-    views,
-    comments,
-    refNum,
-    listingAgentName,
-    feedBack,
-  } = req.body;
+  const { refNum, listingAgentName, feedback } = req.body;
 
   //validate the required fields
-  if (!fullName || !phoneNumber || !city || !bedrooms || !budget) {
-    return res
-      .status(400)
-      .json({ error: "Please fill in all the required fields" });
+  if (!refNum || !listingAgentName) {
+    return next(errorHandler(400, "Please fill in all the required fields"));
   }
 
   //find the inquiry by id and update its data
@@ -90,20 +71,9 @@ const editInquiry = async (req, res) => {
     const inquiry = await Inquiry.findByIdAndUpdate(
       id,
       {
-        fullName,
-        phoneNumber,
-        city,
-        area,
-        project,
-        type,
-        bedrooms,
-        vacant,
-        budget,
-        views,
-        comments,
         refNum,
         listingAgentName,
-        feedBack,
+        feedback,
       },
       { new: true }
     );
@@ -114,7 +84,7 @@ const editInquiry = async (req, res) => {
 
     res.status(200).json({ message: "Inquiry updated successfully" });
   } catch (err) {
-    res.status(500).json({ error: "Something went wrong" });
+    next(errorHandler(500, err.message));
   }
 };
 

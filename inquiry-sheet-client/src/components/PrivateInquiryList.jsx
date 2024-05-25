@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Outlet, Navigate } from "react-router-dom";
 
-const PrivateRoutes = () => {
+const PrivateInquiryList = () => {
   const { currentUser } = useSelector((state) => state.user);
   return currentUser.rest.role === "listing" ? (
     <Outlet />
@@ -11,4 +11,4 @@ const PrivateRoutes = () => {
   );
 };
 
-export default PrivateRoutes;
+export default PrivateInquiryList;

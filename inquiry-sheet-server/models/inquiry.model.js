@@ -18,20 +18,21 @@ const inquirySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    area: {
-      type: String,
-      required: false,
-    },
     project: {
       type: String,
       required: false,
     },
     type: {
       type: String,
+      required: false,
     },
     bedrooms: {
-      type: Number,
+      type: String,
       required: true,
+    },
+    floor: {
+      type: String,
+      required: false,
     },
     vacant: {
       type: Boolean,
@@ -57,7 +58,7 @@ const inquirySchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    feedBack: {
+    feedback: {
       type: String,
       required: false,
     },
