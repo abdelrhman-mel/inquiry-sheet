@@ -6,10 +6,12 @@ const InquiryList = () => {
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [editingInquiry, setEditingInquiry] = useState(null);
-  const [refNum, setRefNum] = useState("");
-  const [listingAgentName, setListingAgentName] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const [editingRow, setEditingRow] = useState(null);
+  const [formData, setFormData] = useState({
+    refNum: "",
+    listingAgentName: "",
+    feedback: "",
+  });
   const [error, setError] = useState("");
 
   const fetchInquiries = async () => {
@@ -20,7 +22,7 @@ const InquiryList = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        cookies: {
+        cookie: {
           access_token: localStorage.getItem("access_token"),
         },
       });
@@ -45,58 +47,47 @@ const InquiryList = () => {
     fetchInquiries();
   }, []);
 
-  const handleEditClick = async (inquiry) => {
-    setEditingInquiry(inquiry.id);
-    setRefNum(inquiry.refNum);
-    setListingAgentName(inquiry.listingAgentName);
-    setFeedback(inquiry.feedback);
-    //make the API call to update the inquiry
-    try {
-      const response = await fetch(`/api/inquiry/${inquiry.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cookies: {
-          access_token: localStorage.getItem("access_token"),
-        },
-        body: JSON.stringify({
-          refNum: inquiry.refNum,
-          listingAgentName: inquiry.listingAgentName,
-          feedback: inquiry.feedback,
-        }),
-      });
-      const data = await response.json();
-      console.log("Inquiry updated:", data);
-    } catch (error) {
-      console.error("Error updating inquiry:", error);
-      setError("Error updating inquiry");
-    }
+  const handleEditClick = (inquiry) => {
+    setEditingRow(inquiry._id);
+    setFormData({
+      refNum: inquiry.refNum,
+      listingAgentName: inquiry.listingAgentName,
+      feedback: inquiry.feedback,
+    });
   };
 
   const handleCancelClick = () => {
-    setEditingInquiry(null);
-    setRefNum("");
-    setListingAgentName("");
-    setFeedback("");
+    setEditingRow(null);
+    setFormData({
+      refNum: "",
+      listingAgentName: "",
+      feedback: "",
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleSubmit = async (id) => {
     try {
-      const response = await fetch(`/api/inquiries/${id}`, {
+      const response = await fetch(`/api/inquiry/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          refNum,
-          listingAgentName,
-          feedback,
-        }),
+        cookie: {
+          access_token: localStorage.getItem("access_token"),
+        },
+        body: JSON.stringify(formData),
       });
       const data = await response.json();
       console.log("Inquiry updated:", data);
-      setEditingInquiry(null);
+      setEditingRow(null);
       fetchInquiries(); // Refresh the inquiries
       //save the specidied inquiry place on the screen
       window.scrollTo(0, 0);
@@ -108,8 +99,8 @@ const InquiryList = () => {
 
   return (
     <div className="container mx-auto mt-10 p-4 bg-white shadow rounded">
+      <h2 className="text-2xl font-bold mb-6 text-center">Inquiries</h2>
       {loading && <div className="text-center">Loading...</div>}
-      <h2 className="text-2xl font-bold mb-6">Inquiries</h2>
       {error && <div className="mb-4 text-red-500">{error}</div>}
       <table className="min-w-full bg-white">
         <thead>
@@ -126,7 +117,10 @@ const InquiryList = () => {
         </thead>
         <tbody>
           {inquiries.map((inquiry) => (
-            <tr key={inquiry.id}>
+            <tr
+              key={inquiry._id}
+              className="hover:bg-gray-200 transition duration-300 ease-in-out"
+            >
               <td className="py-2 px-4 border-b">{inquiry.fullName}</td>
               <td className="py-2 px-4 border-b">{inquiry.phoneNumber}</td>
               <td className="py-2 px-4 border-b">
@@ -136,11 +130,12 @@ const InquiryList = () => {
               </td>
               <td className="py-2 px-4 border-b">{inquiry.comments}</td>
               <td className="py-2 px-4 border-b">
-                {editingInquiry === inquiry.id ? (
+                {editingRow === inquiry._id ? (
                   <input
                     type="text"
-                    value={refNum}
-                    onChange={(e) => setRefNum(e.target.value)}
+                    name="refNum"
+                    value={formData.refNum}
+                    onChange={handleInputChange}
                     className="border rounded px-2 py-1"
                   />
                 ) : (
@@ -148,11 +143,12 @@ const InquiryList = () => {
                 )}
               </td>
               <td className="py-2 px-4 border-b">
-                {editingInquiry === inquiry.id ? (
+                {editingRow === inquiry._id ? (
                   <input
                     type="text"
-                    value={listingAgentName}
-                    onChange={(e) => setListingAgentName(e.target.value)}
+                    name="listingAgentName"
+                    value={formData.listingAgentName}
+                    onChange={handleInputChange}
                     className="border rounded px-2 py-1"
                   />
                 ) : (
@@ -160,11 +156,12 @@ const InquiryList = () => {
                 )}
               </td>
               <td className="py-2 px-4 border-b">
-                {editingInquiry === inquiry.id ? (
+                {editingRow === inquiry._id ? (
                   <input
                     type="text"
-                    value={feedback}
-                    onChange={(e) => setFeedback(e.target.value)}
+                    name="feedback"
+                    value={formData.feedback}
+                    onChange={handleInputChange}
                     className="border rounded px-2 py-1"
                   />
                 ) : (
@@ -172,20 +169,22 @@ const InquiryList = () => {
                 )}
               </td>
               <td className="py-2 px-4 border-b">
-                {editingInquiry === inquiry.id ? (
+                {editingRow === inquiry._id ? (
                   <>
-                    <button
-                      onClick={() => handleSubmit(inquiry.id)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded transition duration-300 ease-in-out"
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={handleCancelClick}
-                      className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded ml-2 transition duration-300 ease-in-out"
-                    >
-                      Cancel
-                    </button>
+                    <div className="flex flex-row">
+                      <button
+                        onClick={() => handleSubmit(inquiry._id)}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-1 rounded transition duration-300 ease-in-out text-sm"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={handleCancelClick}
+                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-1 rounded ml-1 transition duration-300 ease-in-out text-sm"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </>
                 ) : (
                   <button

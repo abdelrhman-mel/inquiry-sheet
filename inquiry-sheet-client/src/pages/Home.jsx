@@ -1,6 +1,8 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">
@@ -12,6 +14,13 @@ const Home = () => {
             Inquire Now
           </button>
         </Link>
+        {currentUser.rest.role === "listing" && (
+          <Link to="/inquiries">
+            <button className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 p-3 ease-in-out transition-all duration-300 hover:shadow-md">
+              View Inquiries
+            </button>
+          </Link>
+        )}
       </div>
     </div>
   );
